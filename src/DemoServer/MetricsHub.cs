@@ -19,7 +19,7 @@ namespace DemoServer
 		{
 			logger.LogInformation("Received metrics: {@Metrics}", metrics);
 
-			await Task.Delay(TimeSpan.Zero);
+			await Task.Delay(TimeSpan.Zero, Context.ConnectionAborted);
 		}
 	}
 }
