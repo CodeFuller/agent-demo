@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -13,12 +14,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CodeFuller.Library.Bootstrap" Version="7.2.0" />
     <PackageReference Include="CodeFuller.Library.Logging" Version="7.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AgentDemo.Common\AgentDemo.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="conf/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

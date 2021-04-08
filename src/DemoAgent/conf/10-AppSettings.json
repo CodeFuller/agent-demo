@@ -1,0 +1,17 @@
+﻿{
+	"agentId": "Test Agent #01",
+
+	"serverAddress": "ws://localhost:5000/metrics",
+
+	"metricsUpdateInterval": "00:00:05",
+
+	"logging": {
+		"defaultLogLevel": "Information",
+		"targets": [
+			{
+				"type": "Console",
+				"logLevel": "Information"
+			}
+		]
+	}
+}
