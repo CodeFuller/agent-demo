@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,9 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeFuller.Library.Bootstrap" Version="7.2.0" />
+    <PackageReference Include="CodeFuller.Library.Configuration" Version="7.2.0" />
     <PackageReference Include="CodeFuller.Library.Logging" Version="7.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333" PrivateAssets="all" />
   </ItemGroup>
 

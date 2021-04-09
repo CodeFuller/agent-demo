@@ -11,6 +11,17 @@
 			{
 				"type": "Console",
 				"logLevel": "Information"
+			},
+			{
+				"type": "RollingFile",
+				"logLevel": "Information",
+				"settings": {
+					"logPath": "logs",
+					"firstFileNamePattern": "DemoAgent - {YYYY}_{MM}_{DD} - {HH}_{mm}_{SS} - {PID} - START",
+					"fileNamePattern": "DemoAgent - {YYYY}_{MM}_{DD} - {HH}_{mm}_{SS} - {PID}",
+					"rollSize": 4194304,
+					"messageFormat": "{Timestamp:yyyy.MM.dd HH:mm:ss.fff} [{Level:u3}] [TID: {PrettyThreadId}] {Message}{NewLine}{Exception}"
+				}
 			}
 		]
 	}

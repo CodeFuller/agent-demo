@@ -1,43 +1,58 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CodeFuller.Library.Bootstrap;
 using DemoAgent.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DemoAgent
 {
-	internal class ApplicationLogic : IApplicationLogic
+	internal class AgentService : BackgroundService
 	{
 		private readonly IMetricsCollector metricsCollector;
 
-		private readonly ILogger<ApplicationLogic> logger;
+		private readonly ILogger<AgentService> logger;
 
 		private readonly AgentSettings settings;
 
-		public ApplicationLogic(IMetricsCollector metricsCollector, ILogger<ApplicationLogic> logger, IOptions<AgentSettings> options)
+		public AgentService(IMetricsCollector metricsCollector, ILogger<AgentService> logger, IOptions<AgentSettings> options)
 		{
 			this.metricsCollector = metricsCollector ?? throw new ArgumentNullException(nameof(metricsCollector));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.settings = options?.Value ?? throw new ArgumentNullException(nameof(options));
 		}
 
-		public async Task<int> Run(string[] args, CancellationToken cancellationToken)
+		public override Task StartAsync(CancellationToken cancellationToken)
 		{
+			logger.LogInformation("Starting the service ...");
+
+			return base.StartAsync(cancellationToken);
+		}
+
+		public override Task StopAsync(CancellationToken cancellationToken)
+		{
+			logger.LogInformation("Stopping the service ...");
+
+			return base.StopAsync(cancellationToken);
+		}
+
+		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+		{
+			logger.LogInformation("Running the service ...");
+
 			try
 			{
-				await RunInternal(cancellationToken);
-
-				return 0;
+				await RunInternal(stoppingToken);
 			}
 #pragma warning disable CA1031 // Do not catch general exception types
 			catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
 			{
+				// TODO: The service should terminate if we get here.
 				logger.LogCritical(e, "Application has failed");
-				return e.HResult;
+				throw;
 			}
 		}
 
