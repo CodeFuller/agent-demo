@@ -8,6 +8,6 @@ namespace AgentDemo.Common
 
 		public DateTimeOffset Timestamp { get; init; }
 
-		public double Value { get; init; }
+		public ulong Value { get; init; }
 	}
 }

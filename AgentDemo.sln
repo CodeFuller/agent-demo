@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DACACC8E-AD93-4C18-95AA-71070F2154B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoServer", "src\DemoServer\DemoServer.csproj", "{C9B3DB02-589C-403E-94C1-071ABA7DBCF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoServer", "src\DemoServer\DemoServer.csproj", "{C9B3DB02-589C-403E-94C1-071ABA7DBCF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAgent", "src\DemoAgent\DemoAgent.csproj", "{821EED73-C8B2-4B70-B5B6-B714C848C492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoAgent", "src\DemoAgent\DemoAgent.csproj", "{821EED73-C8B2-4B70-B5B6-B714C848C492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentDemo.Common", "src\AgentDemo.Common\AgentDemo.Common.csproj", "{9AFA3755-A5BA-48B6-975B-365D98099809}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgentDemo.Common", "src\AgentDemo.Common\AgentDemo.Common.csproj", "{9AFA3755-A5BA-48B6-975B-365D98099809}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8E59A4E3-0821-4A78-B9E8-5F4E2436AD4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAgent.IntegrationTests", "tests\DemoAgent.IntegrationTests\DemoAgent.IntegrationTests.csproj", "{53451922-084E-4506-BB94-04F33C43809E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,10 @@ Global
 		{9AFA3755-A5BA-48B6-975B-365D98099809}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AFA3755-A5BA-48B6-975B-365D98099809}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AFA3755-A5BA-48B6-975B-365D98099809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53451922-084E-4506-BB94-04F33C43809E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53451922-084E-4506-BB94-04F33C43809E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53451922-084E-4506-BB94-04F33C43809E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53451922-084E-4506-BB94-04F33C43809E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +45,7 @@ Global
 		{C9B3DB02-589C-403E-94C1-071ABA7DBCF8} = {DACACC8E-AD93-4C18-95AA-71070F2154B2}
 		{821EED73-C8B2-4B70-B5B6-B714C848C492} = {DACACC8E-AD93-4C18-95AA-71070F2154B2}
 		{9AFA3755-A5BA-48B6-975B-365D98099809} = {DACACC8E-AD93-4C18-95AA-71070F2154B2}
+		{53451922-084E-4506-BB94-04F33C43809E} = {8E59A4E3-0821-4A78-B9E8-5F4E2436AD4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA9F6119-2521-4F10-A706-C83FE00F56A9}
