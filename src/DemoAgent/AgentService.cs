@@ -85,6 +85,8 @@ namespace DemoAgent
 			await connection.StartAsync(cancellationToken);
 			logger.LogInformation("Connection was started successfully");
 
+			await metricsCollector.Initialize(cancellationToken);
+
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var metrics = await metricsCollector.CollectMetrics(cancellationToken);

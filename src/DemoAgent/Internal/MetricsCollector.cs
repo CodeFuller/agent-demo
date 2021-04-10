@@ -1,56 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
 using AgentDemo.Common;
 using DemoAgent.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DemoAgent.Internal
 {
 	internal class MetricsCollector : IMetricsCollector
 	{
-		private readonly Random rnd = new();
+		private readonly ILogger<MetricsCollector> logger;
 
 		private readonly AgentSettings settings;
 
-		public MetricsCollector(IOptions<AgentSettings> options)
+		private bool IsInitialized { get; set; }
+
+		private ManagementObject TotalCpuObject { get; set; }
+
+		private ManagementObject OperatingSystemObject { get; set; }
+
+		public MetricsCollector(ILogger<MetricsCollector> logger, IOptions<AgentSettings> options)
 		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.settings = options?.Value ?? throw new ArgumentNullException(nameof(options));
+		}
+
+		public Task Initialize(CancellationToken cancellationToken)
+		{
+			logger.LogInformation("Initializing metrics collector ...");
+
+			using var processorSearcher = new ManagementObjectSearcher(new SelectQuery(@"SELECT Name, PercentProcessorTime FROM Win32_PerfFormattedData_PerfOS_Processor WHERE Name = '_Total'"));
+			TotalCpuObject = processorSearcher.Get().OfType<ManagementObject>().SingleOrDefault();
+
+			using var osSearcher = new ManagementObjectSearcher("SELECT FreePhysicalMemory, TotalVisibleMemorySize FROM Win32_OperatingSystem");
+			OperatingSystemObject = osSearcher.Get().OfType<ManagementObject>().SingleOrDefault();
+
+			IsInitialized = true;
+
+			return Task.CompletedTask;
 		}
 
 		public Task<MetricsBag> CollectMetrics(CancellationToken cancellationToken)
 		{
+			if (!IsInitialized)
+			{
+				throw new InvalidOperationException("Metrics collector is not initialized");
+			}
+
 			var metrics = new MetricsBag(settings.AgentId, GetMetrics());
 
 			return Task.FromResult(metrics);
 		}
 
-		// TODO: Replace with real system metrics.
 		private IEnumerable<MetricsValue> GetMetrics()
 		{
-			var timestamp = DateTimeOffset.UtcNow;
-
-			yield return new MetricsValue
+			if (TotalCpuObject != null)
 			{
-				Id = "cpu",
-				Timestamp = timestamp,
-				Value = GetRandomMetricsValue(),
-			};
+				TotalCpuObject.Get();
+				yield return new MetricsValue
+				{
+					Id = "cpu",
+					Timestamp = DateTimeOffset.UtcNow,
+					Value = (ulong)TotalCpuObject["PercentProcessorTime"],
+				};
+			}
 
-			yield return new MetricsValue
+			if (OperatingSystemObject != null)
 			{
-				Id = "memory",
-				Timestamp = timestamp,
-				Value = GetRandomMetricsValue(),
-			};
-		}
+				OperatingSystemObject.Get();
 
-		private double GetRandomMetricsValue()
-		{
-#pragma warning disable CA5394 // Do not use insecure randomness
-			return rnd.NextDouble();
-#pragma warning restore CA5394 // Do not use insecure randomness
+				var free = (ulong)OperatingSystemObject["FreePhysicalMemory"];
+				var total = (ulong)OperatingSystemObject["TotalVisibleMemorySize"];
+				var used = total - free;
+
+				yield return new MetricsValue
+				{
+					Id = "memory",
+					Timestamp = DateTimeOffset.UtcNow,
+					Value = used,
+				};
+			}
 		}
 	}
 }
