@@ -33,13 +33,17 @@ namespace DemoAgent.Internal
 		{
 			logger.LogInformation("Initializing metrics collector ...");
 
+			logger.LogInformation("Initializing CPU collector ...");
 			using var processorSearcher = new ManagementObjectSearcher(new SelectQuery(@"SELECT Name, PercentProcessorTime FROM Win32_PerfFormattedData_PerfOS_Processor WHERE Name = '_Total'"));
 			TotalCpuObject = processorSearcher.Get().OfType<ManagementObject>().SingleOrDefault();
 
+			logger.LogInformation("Initializing memory collector ...");
 			using var osSearcher = new ManagementObjectSearcher("SELECT FreePhysicalMemory, TotalVisibleMemorySize FROM Win32_OperatingSystem");
 			OperatingSystemObject = osSearcher.Get().OfType<ManagementObject>().SingleOrDefault();
 
 			IsInitialized = true;
+
+			logger.LogInformation("Metrics collector was initialized successfully");
 
 			return Task.CompletedTask;
 		}
