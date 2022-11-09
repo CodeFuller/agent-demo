@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AgentDemo.Common;
 using DemoAgent.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
@@ -80,6 +81,11 @@ namespace DemoAgent
 				logger.LogError(e, "Connection was closed");
 				return Task.CompletedTask;
 			};
+
+			connection.On<ServerToClientRequest>("ServerToClientCall", request =>
+			{
+				logger.LogInformation("Request from server. Timestamp: {Timestamp}", request.Timestamp);
+			});
 
 			logger.LogInformation("Starting connection ...");
 			await connection.StartAsync(cancellationToken);

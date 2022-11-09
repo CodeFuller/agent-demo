@@ -19,7 +19,13 @@ namespace DemoServer
 		{
 			logger.LogInformation("Received metrics: {@Metrics}", metrics);
 
-			await Task.Delay(TimeSpan.Zero, Context.ConnectionAborted);
+			var request = new ServerToClientRequest
+			{
+				Timestamp = DateTimeOffset.Now,
+			};
+
+			logger.LogInformation("Sending request to client ...");
+			await Clients.Caller.SendAsync("ServerToClientCall", request, Context.ConnectionAborted);
 		}
 	}
 }
