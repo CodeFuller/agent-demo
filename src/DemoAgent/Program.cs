@@ -26,7 +26,7 @@ namespace DemoAgent
 			catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
 			{
-				Console.Error.WriteLine(e);
+				await Console.Error.WriteLineAsync(e.ToString());
 				return e.HResult;
 			}
 		}
